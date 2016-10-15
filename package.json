@@ -1,0 +1,31 @@
+{
+  "name": "open-hax",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.16.0",
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "express-session": "^1.13.0",
+    "hbs": "~3.1.0",
+    "md5": "^2.1.0",
+    "moment": "^2.13.0",
+    "mongo-wrapper": "0.0.29",
+    "mongodb": "^2.1.19",
+    "morgan": "~1.6.1",
+    "multer": "^1.1.0",
+    "serve-favicon": "^2.3.0",
+    "socket.io": "^1.5.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "webpack": "^1.13.2"
+  }
+}
