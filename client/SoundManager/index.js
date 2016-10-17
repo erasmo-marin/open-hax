@@ -14,6 +14,7 @@ class SoundManager {
         this.game.load.audio('goal-2', '/sounds/goal-2.mp3');
         this.game.load.audio('people-oh', '/sounds/people-oh.mp3');
         this.game.load.audio('public-1', '/sounds/public-1.mp3');
+        this.game.load.audio('kick', '/sounds/kick.mp3');
         //this.game.load.audio('public-2', '/sounds/public-2.mp3');
 	}
 
@@ -36,6 +37,9 @@ class SoundManager {
 		this.public1 = this.game.add.audio('public-1');
 		this.sounds.push(this.public1);
 
+		this.kick = this.game.add.audio('kick', 0.3);
+		this.sounds.push(this.kick);
+
 		//this.public2 = this.game.add.audio('public-2');
 		//this.sounds.push(this.public2);
 
@@ -52,6 +56,10 @@ class SoundManager {
 
 	startPublic() {
 		this.public1.fadeIn(500, true);
+	}
+
+	kick() {
+		this.kick.play();
 	}
 
 

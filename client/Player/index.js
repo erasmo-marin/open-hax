@@ -153,6 +153,7 @@ class Player {
                 }
                 this.ballBody.angle = alpha;
                 this.ballBody.thrust(4000);
+                this.game.sound.play("kick");
             }
 
 
