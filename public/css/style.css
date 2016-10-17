@@ -5,7 +5,13 @@ body.sans {
 }
 
 body {
-	background: rgb(129, 141, 108);
+	background: #818D6C;
+}
+
+body canvas {
+	display : block;
+	margin : auto;
+	margin-top:  30px;
 }
 
 header {

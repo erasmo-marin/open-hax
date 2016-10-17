@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "watch": "webpack --progress --colors --watch"
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
@@ -13,6 +13,7 @@
     "express": "~4.13.1",
     "express-session": "^1.13.0",
     "hbs": "~3.1.0",
+    "lodash": "^4.16.4",
     "md5": "^2.1.0",
     "moment": "^2.13.0",
     "mongo-wrapper": "0.0.29",
