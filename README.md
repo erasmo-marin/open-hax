@@ -1,5 +1,8 @@
 #OpenHax - Open Source Haxball Clone in HTML5 and Javascript
 
+![screenshot](https://github.com/erasmo-marin/open-hax/raw/master/screenshot.png)
+
+
 OpenHax is an open source clone/remake of the famous game Haxball. While the game engine is **Phaser**, it also uses **React** for client-side rendering and Socket.io for game state synchronization.
 
 ##Building and running
