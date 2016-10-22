@@ -10,15 +10,17 @@ var multer  = require('multer');
 var upload = multer({ dest: './public/uploads' });
 var helpers = require("./views/helpers");
 var favicon = require('serve-favicon');
-var io = require('socket.io')(http);
 
 var routes = require('./routes/index');
+var room = require('./routes/room');
 
 //api
 var usersApi = require('./routes/api/v1/users');
 
 var app = express();
-var http = require('http').Server(app);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 
 hbs.registerPartials(__dirname + '/views/partials');
 
@@ -39,21 +41,27 @@ app.use(session({secret: '41A9E1792DE3F',
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/favicon.png'));
 
-app.use('/', routes);
+//socket.io middleware
+app.use(function(req, res, next) {
 
+  console.log(req);
 
-io.on('connection', function(socket){
-  console.log('a user connected');
+  res.io = io;
+  next();
 });
+
+
+app.use('/', routes);
+app.use('/room', room);
 
 
 //api
 app.use('/api/users', usersApi);
 
 //datasource
-var Users = require('./DAO/users.js');
+/*var Users = require('./DAO/users.js');
 usersdb = new Users();
-usersdb.firstRun();
+usersdb.firstRun();*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,5 +93,4 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-module.exports = app;
+module.exports = {app: app, server: server};

@@ -12,13 +12,125 @@ body canvas {
 	display : block;
 	margin : auto;
 	margin-top:  30px;
+    border: solid 10px #3c312b;
+    border-radius: 5px;
 }
 
 header {
 	height: 46px;
-	background: rgb(46, 37, 32);
+	background: #3c312b;
 	color: #fff;
     line-height: 46px;
     font-size: 15px;
     text-shadow: 1px 1px 0 black;
 }
+
+header .scoreboard {
+	float: left;
+	width: 200px;
+	font-size: 30px;
+	font-weight: 600;
+	margin-left: 30px;
+}
+
+header .scoreboard * {
+	float: left;
+}
+
+
+header .scoreboard .shirt {
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+	margin-top: 15px;
+}
+
+header .scoreboard .home .shirt {
+	background: red;
+	margin-right: 20px;
+}
+
+header .scoreboard .away .shirt {
+	background: blue;
+	margin-left: 20px;
+}
+
+header .scoreboard .separator {
+	margin: 0 10px;
+}
+
+header .timer{
+	float: right;
+	width: 200px;
+	height: 50px;
+	font-size: 30px;
+	font-weight: 600;
+	margin-right: 30px;
+	text-align: right;
+	line-height: 50px;
+}
+
+.chat-input-container {
+	position: fixed;
+    bottom: 0;
+    left: calc(50% - 440px);
+    width: 880px;
+    background: #3c312b;
+    height: 160px;
+    font-size: 13px;
+}
+
+.chat-input-container .chat-box {
+    height: 90px;
+    background-color: rgba(255,255,255,0.1);
+    box-sizing: border-box;
+    margin: 10px;
+    width: calc(90% - 10px);
+    overflow-y: scroll;
+    border-radius: 5px;
+}
+
+.chat-input-container .chat-box .message {
+	display: block;
+    max-width: 100%;
+    max-height: 14px;
+    line-height: 14px;
+    color: #fff;
+    margin-top: 4px;
+    font-weight: 300;
+}
+
+.chat-input-container .chat-box .message span.nickname {
+	font-weight: 600;
+}
+
+
+.chat-input {
+    float: left;
+    width: 90%;
+    margin-top: 10px;
+}
+
+.chat-input input {
+    width: calc(100% - 10px);
+    margin-left: 10px;
+    background-color: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    padding: 5px;
+    outline: none;
+    border-radius: 5px;
+}
+
+.chat-input-container .button.send {
+    line-height: 50px;
+    margin-left: 10px;
+    float: left;
+    width: calc(10% - 10px);
+    color: #fff;
+    cursor: pointer;
+}
+
+
+
+

@@ -29,6 +29,8 @@ class Field {
         this.grass = this.game.add.tileSprite(this.style.x, this.style.y, this.style.width, this.style.height, 'field');
         this.sprite = this.game.add.sprite(this.style.x, this.style.y, this.graphics.generateTexture());
 
+        console.log(this.sprite);
+
         //this.game.physics.p2.enable(this.sprite);
         //this.sprite.body.setMaterial(this.material);
         //this.sprite.body.mass = 0;

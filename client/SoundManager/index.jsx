@@ -15,7 +15,6 @@ class SoundManager {
         this.game.load.audio('people-oh', '/sounds/people-oh.mp3');
         this.game.load.audio('public-1', '/sounds/public-1.mp3');
         this.game.load.audio('kick', '/sounds/kick.mp3');
-        //this.game.load.audio('public-2', '/sounds/public-2.mp3');
 	}
 
 	create () {
@@ -40,9 +39,6 @@ class SoundManager {
 		this.kick = this.game.add.audio('kick', 0.3);
 		this.sounds.push(this.kick);
 
-		//this.public2 = this.game.add.audio('public-2');
-		//this.sounds.push(this.public2);
-
 		this.game.sound.setDecodedCallback(this.sounds, () => {
 			console.log("sounds loaded");
 			this.soundsLoaded = true;
@@ -55,11 +51,13 @@ class SoundManager {
 	}
 
 	startPublic() {
+		this.public1.volume = 0.5
 		this.public1.fadeIn(500, true);
 	}
 
 	kick() {
-		this.kick.play();
+		if(!this.kick.isPlaying)
+			this.kick.play();
 	}
 
 

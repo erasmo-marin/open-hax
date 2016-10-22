@@ -36,7 +36,6 @@ class Player {
 
         this.graphics = this.renderGraphics();
         this.sprite = this.game.make.sprite(x, y, this.graphics.generateTexture());
-        //this.sprite.addChild(graphics);
         this.sprite.smoothed = false;
 
         this.game.physics.p2.enable(this.sprite);
@@ -76,12 +75,15 @@ class Player {
         }
 
         if (!this.isMe) {
-            this.nicknameText = this.game.add.text(x, y + this.sprite.height, this.nickname, style);
-            this.nicknameText.anchor.set(0.5);
+            this.nicknameText = new Phaser.Text(this.game, 0, 20, this.nickname, style);
+            this.nicknameText.x = 0 - this.nicknameText.width/2;
+            this.sprite.addChild(this.nicknameText);
         }
 
-        this.avatarText = this.game.add.text(x, y + 3, this.avatar, style2);
-        this.avatarText.anchor.set(0.5);
+        this.avatarText = new Phaser.Text(this.game, 0, -10, this.avatar, style2);
+        this.avatarText.x = 0 - this.avatarText.width/2;
+        //this.avatarText.anchor.set(0.5);
+        this.sprite.addChild(this.avatarText);
 
     }
 
@@ -115,18 +117,18 @@ class Player {
 
             if (this.cursors.left.isDown) {
                 this.sprite.body.angle = 270;
-                this.sprite.body.thrust(100);
+                this.sprite.body.thrust(200);
             } else if (this.cursors.right.isDown) {
                 this.sprite.body.angle = 90;
-                this.sprite.body.thrust(100);
+                this.sprite.body.thrust(200);
             }
 
             if (this.cursors.up.isDown) {
                 this.sprite.body.angle = 0;
-                this.sprite.body.thrust(100);
+                this.sprite.body.thrust(200);
             } else if (this.cursors.down.isDown) {
                 this.sprite.body.angle = 180;
-                this.sprite.body.thrust(100);
+                this.sprite.body.thrust(200);
             }
 
             if (this.cursors.x.isDown && this.touchingBall && this.ballBody) {
@@ -175,14 +177,6 @@ class Player {
                 this.sprite.loadTexture(this.renderGraphics(false).generateTexture());
             }
         }
-
-        if (!this.isMe) {
-            this.nicknameText.x = this.sprite.x + this.sprite.height;
-            this.nicknameText.y = this.sprite.y + 2 * this.sprite.height;
-        }
-
-        this.avatarText.x = this.sprite.x + 30;
-        this.avatarText.y = this.sprite.y + 32.5;
 
     }
 

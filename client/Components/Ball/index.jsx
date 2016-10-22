@@ -25,7 +25,7 @@ class Ball {
         this.sprite.body.collideWorldBounds = true;
         this.sprite.body.setMaterial(this.material);
         this.sprite.body.fixedRotation = true;
-        this.sprite.body.damping = 0.5;
+        this.sprite.body.damping = 0.4;
         this.sprite.body.mass = 0.8;
         this.sprite.body.fieldElementType = "ball";
     }

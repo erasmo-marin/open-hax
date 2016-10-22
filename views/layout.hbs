@@ -6,13 +6,15 @@
  	 	<title>{{title}}</title>
 		<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="/css/style.css">
 		<link rel="shortcut icon" href="/favicon.png" /> 
 		<script src="/js/jquery-1.12.3.min.js"></script>
 		<script src="/js/phaser.js"></script>
-		<script src="bundle/app.bundle.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 	</head>
 	<body class="sans">
 		{{{body}}}
+
+		<script src="/bundle/common.js"></script>
+		<script src="/bundle/app.js"></script>
 	</body>
 </html>
