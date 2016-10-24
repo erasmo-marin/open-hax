@@ -1,6 +1,6 @@
 class Player {
 
-    constructor(game, material, type, nickname, avatar, isMe) {
+    constructor(game, material, collisions, type, nickname, avatar, isMe) {
 
         this.game = game;
         this.avatar = avatar;
@@ -11,6 +11,7 @@ class Player {
         this.maxVelocity = 100;
         this.ballBody = null;
 
+        this.collisions = collisions;
         this.graphics = null;
         this.sprite = null;
         this.nicknameText = null;
@@ -35,18 +36,18 @@ class Player {
     render(x, y) {
 
         this.graphics = this.renderGraphics();
-        this.sprite = this.game.make.sprite(x, y, this.graphics.generateTexture());
+        this.sprite = this.game.add.sprite(x, y, this.graphics.generateTexture());
         this.sprite.smoothed = false;
 
         this.game.physics.p2.enable(this.sprite);
         this.sprite.body.setCircle(15, 0, 0, 0);
+        this.sprite.body.setCollisionGroup(this.collisions.groups.FOR_PLAYER);
+        this.sprite.body.collides([this.collisions.groups.FOR_PLAYER, this.collisions.groups.FOR_BALL, this.collisions.groups.FOR_LINE]);
         this.sprite.body.collideWorldBounds = true;
         this.sprite.body.setMaterial(this.material);
         this.sprite.body.fixedRotation = true;
         this.sprite.body.damping = 0.8;
         this.sprite.body.fieldElementType = "player";
-
-
 
         this.sprite.body.onBeginContact.add((contactBody) => {
             if(contactBody && contactBody.fieldElementType == "ball") {
@@ -82,7 +83,6 @@ class Player {
 
         this.avatarText = new Phaser.Text(this.game, 0, -10, this.avatar, style2);
         this.avatarText.x = 0 - this.avatarText.width/2;
-        //this.avatarText.anchor.set(0.5);
         this.sprite.addChild(this.avatarText);
 
     }
@@ -117,18 +117,18 @@ class Player {
 
             if (this.cursors.left.isDown) {
                 this.sprite.body.angle = 270;
-                this.sprite.body.thrust(200);
+                this.sprite.body.thrust(250);
             } else if (this.cursors.right.isDown) {
                 this.sprite.body.angle = 90;
-                this.sprite.body.thrust(200);
+                this.sprite.body.thrust(250);
             }
 
             if (this.cursors.up.isDown) {
                 this.sprite.body.angle = 0;
-                this.sprite.body.thrust(200);
+                this.sprite.body.thrust(250);
             } else if (this.cursors.down.isDown) {
                 this.sprite.body.angle = 180;
-                this.sprite.body.thrust(200);
+                this.sprite.body.thrust(250);
             }
 
             if (this.cursors.x.isDown && this.touchingBall && this.ballBody) {

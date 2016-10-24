@@ -3,26 +3,118 @@ import React from 'react';
 
 import Chat from './Components/ChatComponent';
 import Field from './Components/Field';
+import Line from './Components/Field/line';
+import Circle from './Components/Field/circle';
 import Player from './Components/Player';
 import Ball from './Components/Ball';
-import room from './Components/Room';
+import Room from './Components/Room';
+import Collisions from './collisions';
 
 import materials from './materials';
 import SoundManager from './SoundManager';
 
 import GameActions from './Actions/GameActions';
 
+
+let lines = [
+                {
+                    x1: 30,
+                    y1: 30 ,
+                    x2: 830,
+                    y2: 30,
+                    collidesWithBall: true,
+                    collidesWithPlayer: false,
+                    style: {
+                        borderColor: 0xffffff,
+                        borderSize: 3,
+                        borderAlpha: 1
+                    }
+                },
+                {
+                    x1: 830,
+                    y1: 30,
+                    x2: 830,
+                    y2: 430,
+                    collidesWithBall: true,
+                    collidesWithPlayer: false,
+                    style: {
+                        borderColor: 0xffffff,
+                        borderSize: 3,
+                        borderAlpha: 1
+                    }
+                },
+                {
+                    x1: 30,
+                    y1: 430,
+                    x2: 830,
+                    y2: 430,
+                    collidesWithBall: true,
+                    collidesWithPlayer: false,
+                    style: {
+                        borderColor: 0xffffff,
+                        borderSize: 3,
+                        borderAlpha: 1
+                    }
+                },
+                {
+                    x1: 30,
+                    y1: 30 ,
+                    x2: 30,
+                    y2: 430,
+                    collidesWithBall: true,
+                    collidesWithPlayer: false,
+                    style: {
+                        borderColor: 0xffffff,
+                        borderSize: 3,
+                        borderAlpha: 1
+                    }
+                },
+                {
+                    x1: 430 - 1.5,
+                    y1: 30,
+                    x2: 430 - 1.5,
+                    y2: 430,
+                    collidesWithBall: false,
+                    collidesWithPlayer: false,
+                    style: {
+                        borderColor: 0xffffff,
+                        borderSize: 3,
+                        borderAlpha: 1
+                    }
+                }
+            ];
+
+let circles = [{
+                x: 860/2 -1.5,
+                y: 460/2 - 1.5,
+                diameter: 150,
+                collidesWithBall: false,
+                collidesWithPlayer: false,
+                style: {
+                    borderColor: 0xffffff,
+                    borderSize: 3,
+                    borderAlpha: 1
+                }
+            }];
+
+
+
 class Game extends React.Component {
 
     constructor(props) {
         super(props);
+        this.bounds = new Phaser.Rectangle(0, 0, 860, 460);
         this.childs = [];
         this.onSoundLoad = this.onSoundLoad.bind(this);
     }
 
     componentDidMount() {
-        this.bounds = new Phaser.Rectangle(0, 0, 860, 460);
         this.game = new Phaser.Game(this.bounds.width, this.bounds.height, Phaser.AUTO, 'open-hax-game', { preload: () => { this.preload(); }, create: () => { this.create(); }, update: () => { this.update(); } });
+        if (this.props.params != null && this.props.params.id_room != null) {
+            this.room = new Room(this.props.params.id_room);
+            window.room = this.room;
+        }
+
         GameActions.timerStart();
     }
 
@@ -34,16 +126,18 @@ class Game extends React.Component {
         this.soundManager.preload();
     }
 
-
-
     create() {
 
         this.soundManager.create();
         this.game.stage.backgroundColor = '#5F7B48';
-        this.game.world.setBounds(0, 0, 803, 403);
+        this.game.world.setBounds(0, 0, this.bounds.width, this.bounds.height);
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
+        this.game.physics.p2.setImpactEvents(true);
         this.game.physics.p2.restitution = 0.75;
+        this.collisions = new Collisions(this.game);
+        this.game.physics.p2.updateBoundsCollisionGroup();
+
         materials.init(this.game);
 
         this.game.physics.p2.setWorldMaterial(materials.world, true, true, true, true);
@@ -54,25 +148,27 @@ class Game extends React.Component {
             width: 800,
             height: 400,
             x: 30,
-            y: 30,
-            borderColor: 0xffffff,
-            borderSize: 3,
-            borderAlpha: 0.5,
-            backgroundColor: 0x61af2a,
+            y: 30
         });
         this.field.render();
 
-        this.player = new Player(this.game, materials.player, "home", "ojo", ":)", true);
-        this.player2 = new Player(this.game, materials.player, "away", "oasfsgfdhgdfgdjo", ":(", false);
-        this.ball = new Ball(this.game, materials.ball);
+        lines.map((props) => {
+            let line = new Line(this.game, this.collisions, props);
+            this.field.addLine(line);
+        });
 
-        this.player.render(300, 300);
-        this.player2.render(300, 50);
-        this.ball.render(430, 300);
+        circles.map((props) => {
+            let circle = new Circle(this.game, this.collisions, props);
+            this.field.addCircle(circle);
+        });
 
-        this.field.addPlayer(this.player);
-        this.field.addPlayer(this.player2);
-        this.field.addPlayer(this.ball);
+        this.player = new Player(this.game, materials.player, this.collisions, "home", "ojo", ":)", true);
+        this.player2 = new Player(this.game, materials.player, this.collisions, "away", "oasfsgfdhgdfgdjo", ":(", false);
+        this.ball = new Ball(this.game, materials.ball, this.collisions);
+
+        this.field.addPlayer(300, 300, this.player);
+        this.field.addPlayer(300, 50, this.player2);
+        this.field.addBall(430, 300, this.ball);
 
         this.childs.push(this.player);
         this.childs.push(this.player2);
@@ -85,7 +181,6 @@ class Game extends React.Component {
     			child.update();
     		}
     	});
-
     }
 
     onSoundLoad () {
@@ -95,7 +190,6 @@ class Game extends React.Component {
             this.soundManager.startMatch();
         }, 2000)
     }
-
 
     render() {
         return  <div className="game">

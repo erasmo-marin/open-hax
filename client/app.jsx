@@ -16,6 +16,7 @@ class App extends React.Component {
 		return (<Router history={browserHistory}>
 					<Route path="/" component={ Layout }>
 						<IndexRoute component={ Game } />
+						<Route path="room(/:id_room)" component={ Game } />
 			        </Route>
 				</Router>);
 	}

@@ -1,20 +1,37 @@
 import ActionTypes from '../../constants/ActionTypes';
 
 
-class RoomClass {
+class Room {
 
-	constructor () {
+	constructor (namespace) {
 		this.suscribers = [];
-
-		let pathArray = window.location.pathname.split( '/' );
-		this.namespace = "/" + pathArray[pathArray.length - 1];
+		this.namespace = "/" + namespace;
 		console.log("socket namespace: ", this.namespace);
-
 		this.socket = io(this.namespace);
 
-	    this.socket.on(ActionTypes.PLAYER_JOINED, function (data) {
-	      alert("user " + data.id + " joined");
-	    });
+		for (let prop in ActionTypes) {
+		    if (ActionTypes.hasOwnProperty(prop)) {
+			    this.socket.on(ActionTypes[prop], (data) => {
+			    	this.sendEvents(ActionTypes[prop], data);
+			    });
+		    }
+		}
+	}
+
+
+	send(event, data) {
+		this.socket.emit(event, data);
+	}
+
+	sendEvents(event, data) {
+		console.log(event, data);
+
+		this.suscribers.map((suscriber) => {
+			if(suscriber.event == event && suscriber.func) {
+				suscriber.func(event, data);
+			}
+		})
+
 	}
 
 	setNamespace(namespace) {
@@ -23,7 +40,7 @@ class RoomClass {
 		this.namespace = namespace;
 	}
 
-	addCListener(func, event) {
+	addListener(func, event) {
 		this.suscribers.push({
 			func: func,
 			event: event
@@ -36,6 +53,4 @@ class RoomClass {
 
 }
 
-const room = new RoomClass();
-
-export default room;
+export default Room;

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var hbs = require('hbs');
 var multer  = require('multer');
+var uuid = require('node-uuid');
 var upload = multer({ dest: './public/uploads' });
 var helpers = require("./views/helpers");
 var favicon = require('serve-favicon');
@@ -20,6 +21,20 @@ var usersApi = require('./routes/api/v1/users');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+
+var keyMirror = require('keymirror');
+
+EVENTS = keyMirror({
+  PLAYER_JOINED: "playerJoined",
+  PLAYER_LEFT: "playerLeft",
+  MESSAGE_RECEIVED: "messageReceived",
+  MESSAGE_SENT: "messageSent",
+  STATE_UPDATE: "stateUpdate",
+  TIMER_PAUSE: "timerPause",
+  TIMER_SET: "timerSet",
+  TIMER_START: "timerStart",
+  TIMER_END: "timerEnd"
+});
 
 
 hbs.registerPartials(__dirname + '/views/partials');
@@ -43,9 +58,6 @@ app.use(favicon(__dirname + '/public/favicon.png'));
 
 //socket.io middleware
 app.use(function(req, res, next) {
-
-  console.log(req);
-
   res.io = io;
   next();
 });
@@ -90,6 +102,16 @@ app.use(function(err, req, res, next) {
   res.render('error', {
     message: err.message,
     error: {}
+  });
+});
+
+io.sockets.on('connection', function (socket) {
+  console.log("on socket connection");
+  socket.nickname = uuid.v4();
+
+  socket.on(EVENTS.MESSAGE_SENT , function (data) {
+    console.log("on socket message sent");
+    io.sockets.in(socket.room).emit(EVENTS.MESSAGE_RECEIVED, socket.nickname, data);
   });
 });
 
