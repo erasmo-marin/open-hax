@@ -7,7 +7,7 @@ let paused = false;
 const GameActions = {
     timerSet: (time) => {
         AppDispatcher.dispatch({
-            actionType: ActionTypes.TIMER_CHANGE,
+            actionType: ActionTypes.TIMER_SET,
             data: time
         });
     },

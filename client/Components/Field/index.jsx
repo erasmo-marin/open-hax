@@ -11,6 +11,7 @@ class Field {
         this.circles = [];
         this.goals = [];
         this.discs = [];
+        this.arcs = [];
         this.players = [];
         this.ball = null;
     }
@@ -37,14 +38,19 @@ class Field {
         line.render();
     }
 
-    addGoal(x, y,goal) {
+    addGoal(goal) {
         this.goals.push(goal);
-       goal.render(x, y);
+        goal.render();
     }
 
-    addDisc(x, y, disc) {
+    addDisc(disc) {
         this.discs.push(disc);
-        disc.render(x, y);
+        disc.render();
+    }
+
+    addArc(arc) {
+        this.arcs.push(arc);
+        arc.render();
     }
 
     addBall(x, y, ball) {
@@ -61,7 +67,6 @@ class Field {
     update() {
 
     }
-
 
 }
 

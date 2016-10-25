@@ -41,7 +41,6 @@ const Game = new GameClass;
 Game.dispatchToken = AppDispatcher.register((action) => {
     switch(action.actionType) {
         case ActionTypes.TIMER_SET:
-            console.log("timer set", action);
             Game.setTimer(action.data);
             break;
     }

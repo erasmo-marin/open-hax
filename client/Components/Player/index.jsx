@@ -42,7 +42,7 @@ class Player {
         this.game.physics.p2.enable(this.sprite);
         this.sprite.body.setCircle(15, 0, 0, 0);
         this.sprite.body.setCollisionGroup(this.collisions.groups.FOR_PLAYER);
-        this.sprite.body.collides([this.collisions.groups.FOR_PLAYER, this.collisions.groups.FOR_BALL, this.collisions.groups.FOR_LINE]);
+        this.sprite.body.collides([this.collisions.groups.FOR_PLAYER, this.collisions.groups.FOR_BALL, this.collisions.groups.FOR_LINE, this.collisions.groups.FOR_DISC]);
         this.sprite.body.collideWorldBounds = true;
         this.sprite.body.setMaterial(this.material);
         this.sprite.body.fixedRotation = true;
@@ -115,21 +115,36 @@ class Player {
 
         if (this.isMe) {
 
+            let thrust = 250;
+
+            //change force when angle is 45º
+            if( (this.cursors.left.isDown && this.cursors.up.isDown)   ||
+                (this.cursors.left.isDown && this.cursors.down.isDown) ||
+                (this.cursors.right.isDown && this.cursors.up.isDown)   ||
+                (this.cursors.right.isDown && this.cursors.down.isDown)) {
+
+                thrust = Math.sqrt(Math.pow(thrust,2)/2);
+            }
+
+
             if (this.cursors.left.isDown) {
                 this.sprite.body.angle = 270;
-                this.sprite.body.thrust(250);
+                this.sprite.body.thrust(thrust);
             } else if (this.cursors.right.isDown) {
                 this.sprite.body.angle = 90;
-                this.sprite.body.thrust(250);
+                this.sprite.body.thrust(thrust);
             }
 
             if (this.cursors.up.isDown) {
                 this.sprite.body.angle = 0;
-                this.sprite.body.thrust(250);
+                this.sprite.body.thrust(thrust);
             } else if (this.cursors.down.isDown) {
                 this.sprite.body.angle = 180;
-                this.sprite.body.thrust(250);
+                this.sprite.body.thrust(thrust);
             }
+
+            
+
 
             if (this.cursors.x.isDown && this.touchingBall && this.ballBody) {
 
@@ -157,18 +172,6 @@ class Player {
                 this.ballBody.thrust(4000);
                 this.game.sound.play("kick");
             }
-
-
-
-            /*if(velocity.x != 0 && velocity.y != 0) {
-                let res = Math.pow(this.resultantVelocity,2);
-                res = Math.sqrt(res/2);
-                velocity.x = (velocity.x < 0) ? -1*res : res;
-                velocity.y = (velocity.y < 0) ? -1*res : res;
-            }
-
-            this.sprite.body.velocity.x = velocity.x;
-            this.sprite.body.velocity.y = velocity.y;*/
 
 
             if (this.cursors.x.isDown) {
