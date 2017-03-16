@@ -1,5 +1,5 @@
-import ActionTypes from '../constants/ActionTypes';
-import AppDispatcher from '../dispatcher/AppDispatcher';
+import ActionTypes from '../Constants/ActionTypes';
+import AppDispatcher from '../Dispatcher/AppDispatcher';
 import { EventEmitter } from 'events';
 import { assign } from 'lodash';
 

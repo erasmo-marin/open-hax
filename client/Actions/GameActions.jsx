@@ -1,5 +1,5 @@
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import ActionTypes from '../constants/ActionTypes';
+import AppDispatcher from '../Dispatcher/AppDispatcher';
+import ActionTypes from '../Constants/ActionTypes';
 
 let interval = null;
 let paused = false;
