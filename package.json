@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "watch": "webpack --progress --colors --watch"
+    "watch": "webpack --progress --colors --watch",
+    "build": "webpack --progress --colors -p",
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
@@ -43,6 +45,6 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.2"
+    "webpack": "^1.15.0"
   }
 }
